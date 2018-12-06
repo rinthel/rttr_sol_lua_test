@@ -9,7 +9,7 @@
 
 include(ExternalProject)
 
-set(DEP_INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/Dependency)
+set(DEP_INSTALL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Dependency/${CMAKE_BUILD_TYPE})
 set(DEP_PROJECTS dep_fmt dep_spdlog dep_rttr dep_lua dep_sol)
 
 ExternalProject_Add(

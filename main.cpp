@@ -97,7 +97,6 @@ int main() {
     }
 
     for (auto& p: vecType.get_properties()) {
-        p.get_type().
     }
 
     for (auto& m: vecType.get_methods()) {
