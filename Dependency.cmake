@@ -29,7 +29,8 @@ ExternalProject_Add(
 ExternalProject_Add(
     dep_rttr
     GIT_REPOSITORY "https://github.com/rttrorg/rttr"
-    GIT_TAG "v0.9.6"
+#    GIT_TAG "v0.9.6"
+	GIT_TAG "master"
     GIT_SHALLOW 1
     UPDATE_COMMAND ""
     PATCH_COMMAND ""

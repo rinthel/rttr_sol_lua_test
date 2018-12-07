@@ -1,12 +1,17 @@
 
 #include <sol.hpp>
-#include <iostream>
-#include <math.h>
+
 #include <rttr/type>
 #include <rttr/registration>
-#include <fmt/format.h>
+#include <rttr/visitor.h>
+
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+
+#include "RttrSolBinder.h"
+
+#include <iostream>
+#include <math.h>
 
 static auto console = spdlog::stdout_color_mt("console");
 
@@ -67,6 +72,7 @@ RTTR_REGISTRATION
         ;
 }
 
+
 int main() {
     auto solTypeToString = [](sol::type solType) {
         switch (solType) {
@@ -88,20 +94,27 @@ int main() {
     sol::state lua;
     lua.open_libraries(sol::lib::base);
 
-    Vec::declare(lua);
-    Rigidbody::declare(lua);
+    const char* showGlobal = R"(
+local function showGlobalTable()
+    for k, v in pairs(_G) do
+        print(k)
+    end
+end
+showGlobalTable()
+    )";
 
-    lua.new_usertype<Vec>("Vec");
-    auto vecType = rttr::type::get_by_name("Vec");
-    for (auto& c: vecType.get_constructors()) {
-    }
+    BindRttrToSol(lua);
+    console->info("----------------");
+    lua.script(showGlobal);
 
-    for (auto& p: vecType.get_properties()) {
-    }
+//    Vec::declare(lua);
+    console->info("----------------");
+    lua.script(showGlobal);
 
-    for (auto& m: vecType.get_methods()) {
 
-    }
+//    Rigidbody::declare(lua);
+
+//    lua.new_usertype<Vec>("Vec");
 
     auto startsWith = [](const std::string &key, const std::string &prefix) -> bool {
         return (key.size() >= prefix.size()) && (key.compare(0, prefix.size(), prefix) == 0);
